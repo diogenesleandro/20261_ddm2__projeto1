@@ -54,12 +54,12 @@ export default function HomeScreen() {
         style={styles.background}
         contentContainerStyle={styles.container}
       >
-        <Text style={styles.titulo}>ETEC de Itanhaém</Text>
+        <Text style={styles.titulo}>Informática para Internet</Text>
 
         <View style={styles.cardInfo}>
           <Text style={styles.subtitulo}>1º ano</Text>
           <Text style={styles.descricao}>
-            Toque nas disciplinas para ver os detalhes.
+            Auxiliar Técnico em Informática para Internet
           </Text>
         </View>
 

@@ -1,10 +1,11 @@
 import React from "react";
-// Adicionado 'Image' aos imports
-import { Image, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+
+const { height } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const cronograma = [
-    { hora: "07:30", seg: "LP", ter: "MAT", qua: "DD", qui: "APS", sex: "PT" },
+    { hora: "08:00", seg: "LP", ter: "MAT", qua: "DD", qui: "APS", sex: "PT" },
     { hora: "08:20", seg: "LP", ter: "MAT", qua: "DD", qui: "APS", sex: "PT" },
     { hora: "09:10", seg: "FTI", ter: "QUI", qua: "HIS", qui: "BD", sex: "ING" },
     { hora: "10:20", seg: "FTI", ter: "QUI", qua: "HIS", qui: "BD", sex: "ING" },
@@ -15,61 +16,133 @@ export default function HomeScreen() {
     <View style={styles.background}>
       <StatusBar barStyle="light-content" />
 
-      <ScrollView
-        style={styles.background}
-        contentContainerStyle={styles.container}
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        pagingEnabled={true}
+        showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.titulo}>ETEC de Itanhaém</Text>
-
-        {/* Imagem embaixo do título principal */}
-        <Image 
-          source={require('../../assets/cps.png')} 
-          style={styles.imagemCard}
-          resizeMode="contain"
-        />
-
-        <View style={styles.card}>
-          <Text style={styles.subtitulo}>Informática para Internet</Text>
-          <Text style={styles.descricao}>Horário Escolar - 2026</Text>
+        {/* TELA 1: Cabeçalho e Identificação */}
+        <View style={styles.page}>
+          <Text style={styles.titulo}>ETEC de Itanhaém</Text>
+          <Image 
+            source={{ uri: 'https://cdn-icons-png.flaticon.com/512/4248/4248174.png' }} 
+            style={styles.imagemCard}
+            resizeMode="contain"
+          />
+          <View style={styles.card}>
+            <Text style={styles.subtitulo}>Informática para Internet</Text>
+            <Text style={styles.descricao}>Horário Escolar - 2026</Text>
+          </View>
+          <Text style={styles.textoFundo}>Arraste para ver o horário</Text>
         </View>
 
-        {/* Imagem embaixo do card de horário */}
-        <Image 
-          source={require('../../assets/infonet.png')} 
-          style={styles.imagemCard}
-          resizeMode="contain"
-        />
+        {/* TELA 2: Tabela de Horários */}
+        <View style={styles.page}>
+          <View style={styles.card}>
+            <Text style={styles.subtitulo}>1º MIN</Text>
+            <Text style={styles.descricao}>Horário Escolar - 2026</Text>
+          </View>
+          <View style={styles.tabelaContainer}>
+            <View style={[styles.linha, styles.cabecalho]}>
+              <Text style={[styles.celula, styles.textoCabecalho, { flex: 0.8 }]}>HORA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEG</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>TER</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUI</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEX</Text>
+            </View>
 
-        <View style={styles.tabelaContainer}>
-          <View style={[styles.linha, styles.cabecalho]}>
-            <Text style={[styles.celula, styles.textoCabecalho, { flex: 0.8 }]}>HORA</Text>
-            <Text style={[styles.celula, styles.textoCabecalho]}>SEG</Text>
-            <Text style={[styles.celula, styles.textoCabecalho]}>TER</Text>
-            <Text style={[styles.celula, styles.textoCabecalho]}>QUA</Text>
-            <Text style={[styles.celula, styles.textoCabecalho]}>QUI</Text>
-            <Text style={[styles.celula, styles.textoCabecalho]}>SEX</Text>
+            {cronograma.map((item, index) => (
+              <View 
+                key={index} 
+                style={[styles.linha, index % 2 === 0 ? styles.linhaPar : styles.linhaImpar]}
+              >
+                <Text style={[styles.celula, styles.textoHora, { flex: 0.8 }]}>{item.hora}</Text>
+                <Text style={styles.textoMateria}>{item.seg}</Text>
+                <Text style={styles.textoMateria}>{item.ter}</Text>
+                <Text style={styles.textoMateria}>{item.qua}</Text>
+                <Text style={styles.textoMateria}>{item.qui}</Text>
+                <Text style={styles.textoMateria}>{item.sex}</Text>
+              </View>
+            ))}
           </View>
 
-          {cronograma.map((item, index) => (
-            <View 
-              key={index} 
-              style={[styles.linha, index % 2 === 0 ? styles.linhaPar : styles.linhaImpar]}
-            >
-              <Text style={[styles.celula, styles.textoHora, { flex: 0.8 }]}>{item.hora}</Text>
-              <Text style={styles.textoMateria}>{item.seg}</Text>
-              <Text style={styles.textoMateria}>{item.ter}</Text>
-              <Text style={styles.textoMateria}>{item.qua}</Text>
-              <Text style={styles.textoMateria}>{item.qui}</Text>
-              <Text style={styles.textoMateria}>{item.sex}</Text>
-            </View>
-          ))}
+          <Text style={styles.textoLegenda}>
+            Siglas: LP (Lógica), DD (Design), APS (Análise), FTI (Fundamentos)
+          </Text>
+          <Text style={styles.textoFundo}>Arraste para ver o horário</Text>
         </View>
+        {/* TELA 2: Tabela de Horários */}
+        <View style={styles.page}>
+          <View style={styles.card}>
+            <Text style={styles.subtitulo}>2º MIN</Text>
+            <Text style={styles.descricao}>Horário Escolar - 2026</Text>
+          </View>
+          <View style={styles.tabelaContainer}>
+            <View style={[styles.linha, styles.cabecalho]}>
+              <Text style={[styles.celula, styles.textoCabecalho, { flex: 0.8 }]}>HORA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEG</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>TER</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUI</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEX</Text>
+            </View>
 
-        <Text style={styles.textoLegenda}>
-          Siglas: LP (Lógica), DD (Design), APS (Análise), FTI (Fundamentos)
-        </Text>
+            {cronograma.map((item, index) => (
+              <View 
+                key={index} 
+                style={[styles.linha, index % 2 === 0 ? styles.linhaPar : styles.linhaImpar]}
+              >
+                <Text style={[styles.celula, styles.textoHora, { flex: 0.8 }]}>{item.hora}</Text>
+                <Text style={styles.textoMateria}>{item.seg}</Text>
+                <Text style={styles.textoMateria}>{item.ter}</Text>
+                <Text style={styles.textoMateria}>{item.qua}</Text>
+                <Text style={styles.textoMateria}>{item.qui}</Text>
+                <Text style={styles.textoMateria}>{item.sex}</Text>
+              </View>
+            ))}
+          </View>
 
-        <Text style={styles.textoFundo}>Arraste para ver mais</Text>
+          <Text style={styles.textoLegenda}>
+            Siglas: LP (Lógica), DD (Design), APS (Análise), FTI (Fundamentos)
+          </Text>
+          <Text style={styles.textoFundo}>Arraste para ver o horário</Text>
+        </View>
+        {/* TELA 2: Tabela de Horários */}
+        <View style={styles.page}>
+          <View style={styles.card}>
+            <Text style={styles.subtitulo}>3º MIN</Text>
+            <Text style={styles.descricao}>Horário Escolar - 2026</Text>
+          </View>
+          <View style={styles.tabelaContainer}>
+            <View style={[styles.linha, styles.cabecalho]}>
+              <Text style={[styles.celula, styles.textoCabecalho, { flex: 0.8 }]}>HORA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEG</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>TER</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUA</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>QUI</Text>
+              <Text style={[styles.celula, styles.textoCabecalho]}>SEX</Text>
+            </View>
+
+            {cronograma.map((item, index) => (
+              <View 
+                key={index} 
+                style={[styles.linha, index % 2 === 0 ? styles.linhaPar : styles.linhaImpar]}
+              >
+                <Text style={[styles.celula, styles.textoHora, { flex: 0.8 }]}>{item.hora}</Text>
+                <Text style={styles.textoMateria}>{item.seg}</Text>
+                <Text style={styles.textoMateria}>{item.ter}</Text>
+                <Text style={styles.textoMateria}>{item.qua}</Text>
+                <Text style={styles.textoMateria}>{item.qui}</Text>
+                <Text style={styles.textoMateria}>{item.sex}</Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={styles.textoLegenda}>
+            Siglas: LP (Lógica), DD (Design), APS (Análise), FTI (Fundamentos)
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -80,105 +153,57 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#001a33",
   },
-  container: {
+  scrollContent: {
     flexGrow: 1,
-    padding: 20,
-    alignItems: "center",
-    gap: 15,
   },
+ // Altere esta linha no seu código:
+page: {
+  height: height - 60, // Subtraindo a altura da StatusBar e margens
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 20,
+},
   titulo: {
     color: "#00d4ff",
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     letterSpacing: 2,
-    marginTop: 40,
     textAlign: 'center',
-  },
-  imagemBanner: {
-    width: '100%',
-    height: 150,
-    borderRadius: 15,
-    marginBottom: 5,
+    marginBottom: 20,
   },
   imagemCard: {
-    width: '100%',
-    height: 100,
-    marginVertical: 5,
+    width: 150,
+    height: 150,
+    marginBottom: 20,
   },
   card: {
     backgroundColor: "rgba(255, 255, 255, 0.05)",
-    padding: 15,
-    borderRadius: 12,
+    padding: 20,
+    margin:30,
+    borderRadius: 15,
     width: "100%",
     alignItems: "center",
-    borderLeftWidth: 4,
+    borderLeftWidth: 5,
     borderLeftColor: "#00d4ff",
   },
-  subtitulo: {
-    color: "#FFF",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  descricao: {
-    color: "#888",
-    fontSize: 14,
-    marginTop: 4,
-  },
+  subtitulo: { color: "#FFF", fontSize: 20, fontWeight: "600" },
+  descricao: { color: "#888", fontSize: 16, marginTop: 5 },
+  
   tabelaContainer: {
     width: '100%',
     borderRadius: 10,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'rgba(0, 212, 255, 0.2)',
-    marginTop: 10,
   },
-  linha: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  cabecalho: {
-    backgroundColor: '#00d4ff',
-  },
-  linhaPar: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-  },
-  linhaImpar: {
-    backgroundColor: 'transparent',
-  },
-  celula: {
-    flex: 1,
-    textAlign: 'center',
-  },
-  textoCabecalho: {
-    color: '#001a33',
-    fontWeight: 'bold',
-    fontSize: 10,
-    textAlign: 'center',
-  },
-  textoHora: {
-    color: '#00d4ff',
-    fontSize: 11,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  textoMateria: {
-    color: '#fff',
-    fontSize: 11,
-    textAlign: 'center',
-    flex: 1,
-  },
-  textoLegenda: {
-    color: '#555',
-    fontSize: 10,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  textoFundo: {
-    color: "#333",
-    fontSize: 11,
-    marginTop: 20,
-    textTransform: "uppercase",
-  },
+  linha: { flexDirection: 'row', alignItems: 'center', paddingVertical: 15 },
+  cabecalho: { backgroundColor: '#00d4ff' },
+  linhaPar: { backgroundColor: 'rgba(255, 255, 255, 0.08)' },
+  linhaImpar: { backgroundColor: 'transparent' },
+  celula: { flex: 1, textAlign: 'center' },
+  textoCabecalho: { color: '#001a33', fontWeight: 'bold', fontSize: 11 },
+  textoHora: { color: '#00d4ff', fontSize: 12, fontWeight: 'bold' },
+  textoMateria: { color: '#fff', fontSize: 12, flex: 1, textAlign: 'center' },
+  textoLegenda: { color: '#555', fontSize: 12, fontStyle: 'italic', marginTop: 15 },
+  textoFundo: { color: "#00d4ff", fontSize: 12, marginTop: 50, opacity: 0.5 },
 });
